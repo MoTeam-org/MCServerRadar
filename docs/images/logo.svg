@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <!-- 背景圆形 -->
+    <circle cx="250" cy="250" r="240" fill="#2C2C2C"/>
+    
+    <!-- 雷达扫描线 -->
+    <g transform="translate(250, 250)">
+        <!-- 雷达背景圆环 -->
+        <circle cx="0" cy="0" r="200" fill="none" stroke="#1E8B3C" stroke-width="2"/>
+        <circle cx="0" cy="0" r="150" fill="none" stroke="#1E8B3C" stroke-width="2"/>
+        <circle cx="0" cy="0" r="100" fill="none" stroke="#1E8B3C" stroke-width="2"/>
+        <circle cx="0" cy="0" r="50" fill="none" stroke="#1E8B3C" stroke-width="2"/>
+        
+        <!-- 十字线 -->
+        <line x1="-200" y1="0" x2="200" y2="0" stroke="#1E8B3C" stroke-width="2"/>
+        <line x1="0" y1="-200" x2="0" y2="200" stroke="#1E8B3C" stroke-width="2"/>
+        
+        <!-- 扫描动画 -->
+        <path d="M 0 0 L 200 0 A 200 200 0 0 1 141.42 141.42 Z" fill="#1E8B3C" opacity="0.3">
+            <animateTransform
+                attributeName="transform"
+                type="rotate"
+                from="0 0 0"
+                to="360 0 0"
+                dur="4s"
+                repeatCount="indefinite"/>
+        </path>
+    </g>
+    
+    <!-- Minecraft 风格的方块 -->
+    <g transform="translate(200, 200)">
+        <!-- 正面 -->
+        <path d="M 0 0 L 100 0 L 100 100 L 0 100 Z" fill="#8B5E3C"/>
+        <!-- 顶面 -->
+        <path d="M 0 0 L 50 -25 L 150 -25 L 100 0 Z" fill="#A67C52"/>
+        <!-- 侧面 -->
+        <path d="M 100 0 L 150 -25 L 150 75 L 100 100 Z" fill="#704C31"/>
+        
+        <!-- 像素风格纹理 -->
+        <rect x="20" y="20" width="20" height="20" fill="#704C31"/>
+        <rect x="60" y="60" width="20" height="20" fill="#704C31"/>
+        <rect x="110" y="-5" width="20" height="20" fill="#8B5E3C"/>
+    </g>
+    
+    <!-- 服务器图标 -->
+    <g transform="translate(220, 220)">
+        <rect x="0" y="0" width="60" height="80" rx="5" fill="#4A4A4A"/>
+        <rect x="10" y="10" width="40" height="5" fill="#1E8B3C"/>
+        <rect x="10" y="25" width="40" height="5" fill="#1E8B3C"/>
+        <rect x="10" y="40" width="40" height="5" fill="#1E8B3C"/>
+    </g>
+</svg> 

@@ -3,7 +3,7 @@
 A powerful Minecraft server scanner, monitor, and visualization tool.
 
 <div align="center">
-    <img src="docs/images/logo.png" alt="MCServerRadar Logo" width="200"/>
+    <img src="docs/images/logo.svg" alt="MCServerRadar Logo" width="200"/>
     <p>
         <a href="README.md">中文</a> | English
     </p>
@@ -13,7 +13,20 @@ A powerful Minecraft server scanner, monitor, and visualization tool.
         <img src="https://img.shields.io/github/forks/MoTeam-org/MCServerRadar" alt="Forks"/>
         <img src="https://img.shields.io/github/issues/MoTeam-org/MCServerRadar" alt="Issues"/>
     </p>
+    <p>
+        🌍 Live Demo: <a href="https://mc-scan.pages.dev" target="_blank">https://mc-scan.pages.dev</a> (Coming Soon)
+    </p>
 </div>
+
+## 📖 Introduction
+
+MCServerRadar is a specialized scanning and monitoring tool designed for Minecraft servers. It can:
+
+- Automatically discover and scan Minecraft servers worldwide
+- Monitor server status and player count in real-time
+- Provide a beautiful web interface to display server information
+- Support filtering servers by country/region
+- Visualize server geographical distribution
 
 ## ✨ Features
 
@@ -27,6 +40,16 @@ A powerful Minecraft server scanner, monitor, and visualization tool.
 - 🔒 Privacy-focused (excludes private IP ranges)
 - 📝 Detailed server information
 - 🌐 Multi-language support
+
+## 🌟 Live Demo
+
+Visit our demo site: [https://mc-scan.pages.dev](https://mc-scan.pages.dev) (Coming Soon)
+
+On the demo site, you can:
+- View global Minecraft server distribution
+- Monitor server status in real-time
+- Filter servers by country/region
+- Experience all core features
 
 ## 🚀 Quick Start
 
@@ -120,6 +143,42 @@ python web.py
   - Custom CSS animations
   - Responsive design
 
+## 💡 Best Practices
+
+### Scanning Tips
+
+1. **Responsible Usage**
+   - Start with small-scale test scans
+   - Avoid frequent scanning of the same IP range
+   - Respect target server policies
+
+2. **Performance Optimization**
+   - Adjust batch size appropriately
+   - Tune timeout settings based on network conditions
+   - Use country-specific scanning for better efficiency
+
+3. **Data Management**
+   - Clean up expired data regularly
+   - Backup important scan results
+   - Set appropriate save intervals
+
+### Deployment Guidelines
+
+1. **System Requirements**
+   - Recommended: Linux system
+   - Ensure sufficient network bandwidth
+   - SSD storage recommended
+
+2. **Network Configuration**
+   - Configure appropriate firewall rules
+   - Use proxy servers to distribute requests
+   - Avoid triggering IP bans
+
+3. **Monitoring & Maintenance**
+   - Set up logging
+   - Monitor system resource usage
+   - Check for updates regularly
+
 ## 🤝 Contributing
 
 We welcome contributions! Here's how you can help:
@@ -155,4 +214,27 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 - [ ] Add more scanning modes
 - [ ] Improve scanning performance
 - [ ] Add API documentation
-- [ ] Add Docker support 
+- [ ] Add Docker support
+
+## ❓ FAQ
+
+1. **Why is scanning slow?**
+   - Check network connectivity
+   - Adjust concurrent connection limits
+   - Consider using proxy servers
+
+2. **How to improve scan accuracy?**
+   - Increase timeout values appropriately
+   - Validate results with multiple scans
+   - Use reliable IP data sources
+
+3. **How to handle scanning errors?**
+   - Check detailed error logs
+   - Verify network connection
+   - Validate target server status
+
+## 📚 Related Resources
+
+- [Minecraft Official Website](https://www.minecraft.net/)
+- [MCStatus Documentation](https://github.com/Dinnerbone/mcstatus)
+- [GeoIP2 Documentation](https://dev.maxmind.com/geoip) 
