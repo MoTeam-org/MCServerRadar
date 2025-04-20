@@ -1,0 +1,73 @@
+name: Auto Release
+
+on:
+  push:
+    branches: [ master, main ]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.gitignore'
+
+jobs:
+  build:
+    if: "contains(github.event.head_commit.message, '[release]')"
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pyinstaller
+        
+    - name: Build with PyInstaller
+      run: |
+        pyinstaller --onefile scan.py --name mcserverradar-scanner
+        pyinstaller --onefile web.py --name mcserverradar-web
+        
+    - name: Get version from commit
+      id: get_version
+      run: |
+        VERSION=$(echo "${{ github.event.head_commit.message }}" | grep -oP '\[release\s+v\K[0-9]+\.[0-9]+\.[0-9]+')
+        if [ -z "$VERSION" ]; then
+          VERSION=0.1.0
+        fi
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        
+    - name: Create Release ZIP
+      run: |
+        mkdir -p release
+        cp dist/* release/
+        cp README*.md release/
+        cp -r docs release/
+        cp requirements.txt release/
+        cd release
+        zip -r ../mcserverradar-${{ steps.get_version.outputs.version }}.zip *
+        
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: mcserverradar-${{ steps.get_version.outputs.version }}.zip
+        tag_name: v${{ steps.get_version.outputs.version }}
+        name: Release v${{ steps.get_version.outputs.version }}
+        body: |
+          MCServerRadar Release v${{ steps.get_version.outputs.version }}
+          
+          Changes in this release:
+          ${{ github.event.head_commit.message }}
+          
+          包含文件:
+          - mcserverradar-scanner (扫描工具)
+          - mcserverradar-web (Web界面)
+          - 文档和配置文件
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
