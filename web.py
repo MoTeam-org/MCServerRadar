@@ -1,9 +1,10 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 import json
 import geoip2.database
 from collections import defaultdict
 from datetime import datetime
 import os
+from mc_scanner import MinecraftServerScanner
 
 app = Flask(__name__)
 
@@ -68,10 +69,14 @@ def process_results():
 @app.route('/')
 def index():
     """主页"""
+    # 从查询参数获取 CDN 选择，默认不使用 JSDelivr
+    use_jsdelivr = request.args.get('use_jsdelivr', '').lower() == 'true'
     servers_by_country, stats = process_results()
     return render_template('index.html', 
                          servers_by_country=servers_by_country,
-                         stats=stats)
+                         stats=stats,
+                         now=datetime.now,
+                         use_jsdelivr=use_jsdelivr)
 
 @app.route('/api/servers')
 def get_servers():

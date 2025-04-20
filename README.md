@@ -88,7 +88,30 @@ python scan.py --mode random
 
 # 扫描特定IP范围
 python scan.py --mode range --start-ip 1.1.1.1 --end-ip 1.1.1.255
-```
+
+# 扫描指定服务器列表
+## 方法1：使用文本文件（每行一个服务器地址）
+echo "mc.hypixel.net
+2b2t.org
+play.pixelmonrealms.com" > servers.txt
+python scan.py --mode multiple --hosts-file servers.txt
+
+## 方法2：直接在代码中使用
+from mc_scanner import MinecraftServerScanner
+import asyncio
+
+async def main():
+    servers_to_scan = [
+        "mc.hypixel.net",
+        "2b2t.org",
+        "play.pixelmonrealms.com"
+    ]
+    scanner = MinecraftServerScanner()
+    await scanner.scan_multiple_servers(servers_to_scan)
+    scanner.save_results()
+
+if __name__ == "__main__":
+    asyncio.run(main())
 
 2. 启动 Web 界面：
 ```bash

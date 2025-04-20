@@ -88,7 +88,30 @@ python scan.py --mode random
 
 # Scan specific IP range
 python scan.py --mode range --start-ip 1.1.1.1 --end-ip 1.1.1.255
-```
+
+# Scan specific server list
+## Method 1: Using a text file (one server per line)
+echo "mc.hypixel.net
+2b2t.org
+play.pixelmonrealms.com" > servers.txt
+python scan.py --mode multiple --hosts-file servers.txt
+
+## Method 2: Using code directly
+from mc_scanner import MinecraftServerScanner
+import asyncio
+
+async def main():
+    servers_to_scan = [
+        "mc.hypixel.net",
+        "2b2t.org",
+        "play.pixelmonrealms.com"
+    ]
+    scanner = MinecraftServerScanner()
+    await scanner.scan_multiple_servers(servers_to_scan)
+    scanner.save_results()
+
+if __name__ == "__main__":
+    asyncio.run(main())
 
 2. Start web interface:
 ```bash

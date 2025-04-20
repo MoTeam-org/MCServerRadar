@@ -4,120 +4,415 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minecraft 服务器扫描结果</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% if use_jsdelivr %}
     <link href="https://cdn.jsdelivr.net/npm/flag-icon-css@4.1.7/css/flag-icons.min.css" rel="stylesheet">
+    {% else %}
+    <link href="https://cdn.moiu.cn/jsdelivr/npm/flag-icon-css@4.1.7/css/flag-icons.min.css" rel="stylesheet">
+    {% endif %}
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        .server-card {
-            transition: transform 0.2s;
+        :root {
+            --primary-color: #1a73e8;
+            --success-color: #34a853;
+            --warning-color: #fbbc05;
+            --error-color: #ea4335;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --background-light: #f8f9fa;
+            --card-shadow: 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
         }
-        .server-card:hover {
-            transform: translateY(-5px);
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .country-section {
-            margin-bottom: 2rem;
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            line-height: 1.5;
+            color: var(--text-primary);
+            background-color: var(--background-light);
         }
-        .stats-card {
-            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background-color: var(--primary-color);
             color: white;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            box-shadow: var(--card-shadow);
+            z-index: 1000;
         }
+
+        .header-logo {
+            height: 32px;
+            margin-right: 12px;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 84px auto 24px;
+            padding: 0 24px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .stats-title {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .stats-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .country-section {
+            margin-bottom: 32px;
+        }
+
+        .country-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .country-flag {
+            font-size: 24px;
+            margin-right: 12px;
+        }
+
+        .country-name {
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .country-count {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-left: 8px;
+        }
+
+        .servers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .server-card {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .server-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .server-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
         .server-status {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            display: inline-block;
-            margin-right: 5px;
+            margin-right: 8px;
         }
+
         .status-online {
-            background-color: #28a745;
+            background-color: var(--success-color);
         }
+
         .status-full {
-            background-color: #dc3545;
+            background-color: var(--error-color);
+        }
+
+        .server-host {
+            font-weight: 500;
+        }
+
+        .server-info {
+            margin-bottom: 4px;
+            color: var(--text-secondary);
+        }
+
+        .server-info strong {
+            color: var(--text-primary);
+            margin-left: 4px;
+        }
+
+        .player-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .tag-online {
+            background-color: rgba(52, 168, 83, 0.1);
+            color: var(--success-color);
+        }
+
+        .tag-full {
+            background-color: rgba(234, 67, 53, 0.1);
+            color: var(--error-color);
+        }
+
+        .server-time {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 24px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .servers-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 0 16px;
+            }
+
+            .main-content {
+                padding: 0 16px;
+            }
+        }
+
+        /* Minecraft 格式样式 */
+        .minecraft-bold {
+            font-weight: bold;
+        }
+        .minecraft-strikethrough {
+            text-decoration: line-through;
+        }
+        .minecraft-underline {
+            text-decoration: underline;
+        }
+        .minecraft-italic {
+            font-style: italic;
+        }
+        .minecraft-obfuscated {
+            display: inline-block;
+        }
+        /* 随机字符效果 */
+        @keyframes obfuscated {
+            0% { opacity: 0.2; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.2; }
+        }
+        .minecraft-obfuscated {
+            animation: obfuscated 0.5s infinite;
+        }
+
+        .server-description {
+            word-break: break-all;
+            line-height: 1.4;
         }
     </style>
+    <script>
+        // Minecraft 颜色代码映射
+        const mcColors = {
+            '0': '#000000', // 黑色
+            '1': '#0000AA', // 深蓝色
+            '2': '#00AA00', // 深绿色
+            '3': '#00AAAA', // 深青色
+            '4': '#AA0000', // 深红色
+            '5': '#AA00AA', // 深紫色
+            '6': '#FFAA00', // 金色
+            '7': '#AAAAAA', // 灰色
+            '8': '#555555', // 深灰色
+            '9': '#5555FF', // 蓝色
+            'a': '#55FF55', // 绿色
+            'b': '#55FFFF', // 青色
+            'c': '#FF5555', // 红色
+            'd': '#FF55FF', // 粉色
+            'e': '#FFFF55', // 黄色
+            'f': '#FFFFFF'  // 白色
+        };
+
+        // 格式代码映射
+        const mcFormats = {
+            'k': 'minecraft-obfuscated',   // 随机字符
+            'l': 'minecraft-bold',         // 粗体
+            'm': 'minecraft-strikethrough', // 删除线
+            'n': 'minecraft-underline',    // 下划线
+            'o': 'minecraft-italic',       // 斜体
+            'r': 'minecraft-reset'         // 重置
+        };
+
+        function parseMcText(text) {
+            const container = document.createElement('span');
+            let currentSpan = document.createElement('span');
+            let currentColor = '#000000';
+            let currentFormats = new Set();
+            
+            container.appendChild(currentSpan);
+            
+            for (let i = 0; i < text.length; i++) {
+                if (text[i] === '§' && i + 1 < text.length) {
+                    const code = text[i + 1].toLowerCase();
+                    i++; // 跳过颜色代码
+                    
+                    // 创建新的 span
+                    currentSpan = document.createElement('span');
+                    
+                    // 处理颜色代码
+                    if (mcColors[code]) {
+                        currentColor = mcColors[code];
+                        currentFormats.clear(); // 颜色代码会清除格式
+                    }
+                    // 处理格式代码
+                    else if (mcFormats[code]) {
+                        if (code === 'r') {
+                            currentColor = '#000000';
+                            currentFormats.clear();
+                        } else {
+                            currentFormats.add(mcFormats[code]);
+                        }
+                    }
+                    
+                    // 应用样式
+                    currentSpan.style.color = currentColor;
+                    for (const format of currentFormats) {
+                        currentSpan.classList.add(format);
+                    }
+                    
+                    container.appendChild(currentSpan);
+                } else {
+                    currentSpan.textContent += text[i];
+                }
+            }
+            
+            return container;
+        }
+
+        // 在页面加载完成后处理所有服务器描述
+        document.addEventListener('DOMContentLoaded', function() {
+            const descriptions = document.querySelectorAll('.server-description');
+            descriptions.forEach(desc => {
+                const rawText = desc.getAttribute('data-mc-text');
+                if (rawText) {
+                    desc.innerHTML = '';
+                    desc.appendChild(parseMcText(rawText));
+                }
+            });
+        });
+    </script>
 </head>
-<body class="bg-light">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="https://www.minecraft.net/etc.clientlibs/minecraft/clientlibs/main/resources/img/menu/menu-buy.gif" 
-                     alt="Minecraft" height="30">
-                服务器扫描器
-            </a>
-        </div>
-    </nav>
+<body>
+    <header class="header">
+        <img src="https://www.minecraft.net/etc.clientlibs/minecraft/clientlibs/main/resources/img/menu/menu-buy.gif" 
+             alt="Minecraft" 
+             class="header-logo">
+        <h1 class="header-title">Minecraft 服务器雷达</h1>
+    </header>
 
-    <div class="container mt-4">
-        <!-- 统计信息 -->
-        <div class="row mb-4">
-            <div class="col-md-3">
-                <div class="card stats-card">
-                    <div class="card-body">
-                        <h5 class="card-title">总服务器数</h5>
-                        <h2>{{ stats.total_servers }}</h2>
-                    </div>
-                </div>
+    <main class="main-content">
+        <div class="stats-grid">
+            <div class="stats-card">
+                <div class="stats-title">总服务器数</div>
+                <div class="stats-value">{{ stats.total_servers }}</div>
             </div>
-            <div class="col-md-3">
-                <div class="card stats-card">
-                    <div class="card-body">
-                        <h5 class="card-title">覆盖国家/地区</h5>
-                        <h2>{{ stats.total_countries }}</h2>
-                    </div>
-                </div>
+            <div class="stats-card">
+                <div class="stats-title">覆盖国家/地区</div>
+                <div class="stats-value">{{ stats.total_countries }}</div>
             </div>
-            <div class="col-md-3">
-                <div class="card stats-card">
-                    <div class="card-body">
-                        <h5 class="card-title">在线玩家</h5>
-                        <h2>{{ stats.total_players }}</h2>
-                    </div>
-                </div>
+            <div class="stats-card">
+                <div class="stats-title">在线玩家</div>
+                <div class="stats-value">{{ stats.total_players }}</div>
             </div>
-            <div class="col-md-3">
-                <div class="card stats-card">
-                    <div class="card-body">
-                        <h5 class="card-title">最大玩家容量</h5>
-                        <h2>{{ stats.max_players }}</h2>
-                    </div>
-                </div>
+            <div class="stats-card">
+                <div class="stats-title">最大玩家容量</div>
+                <div class="stats-value">{{ stats.max_players }}</div>
             </div>
         </div>
 
-        <!-- 按国家分组的服务器列表 -->
         {% for country_code, servers in servers_by_country.items() %}
-        <div class="country-section">
-            <h3 class="mb-3">
-                <span class="flag-icon flag-icon-{{ country_code.lower() }}"></span>
-                {{ servers[0].country.name_zh }}
-                <small class="text-muted">({{ servers|length }} 个服务器)</small>
-            </h3>
-            <div class="row">
+        <section class="country-section">
+            <div class="country-header">
+                <span class="flag-icon flag-icon-{{ country_code.lower() }} country-flag"></span>
+                <h2 class="country-name">
+                    {{ servers[0].country.name_zh }}
+                    <span class="country-count">({{ servers|length }} 个服务器)</span>
+                </h2>
+            </div>
+            <div class="servers-grid">
                 {% for server in servers %}
-                <div class="col-md-4 mb-3">
-                    <div class="card server-card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <span class="server-status {% if server.players_online >= server.players_max %}status-full{% else %}status-online{% endif %}"></span>
-                                {{ server.host }}:{{ server.port }}
-                            </h5>
-                            <p class="card-text">
-                                <strong>版本：</strong>{{ server.version }}<br>
-                                <strong>玩家：</strong>{{ server.players_online }}/{{ server.players_max }}<br>
-                                <strong>延迟：</strong>{{ "%.2f"|format(server.latency) }}ms<br>
-                                <strong>描述：</strong>{{ server.description }}
-                            </p>
-                        </div>
-                        <div class="card-footer text-muted">
-                            更新时间：{{ server.timestamp.split('T')[0] }}
-                        </div>
+                <div class="server-card">
+                    <div class="server-header">
+                        <span class="server-status {% if server.players_online >= server.players_max %}status-full{% else %}status-online{% endif %}"></span>
+                        <span class="server-host">{{ server.host }}:{{ server.port }}</span>
                     </div>
+                    <div class="server-info">版本：<strong>{{ server.version }}</strong></div>
+                    <div class="server-info">
+                        玩家：
+                        <span class="player-tag {% if server.players_online >= server.players_max %}tag-full{% else %}tag-online{% endif %}">
+                            {{ server.players_online }}/{{ server.players_max }}
+                        </span>
+                    </div>
+                    <div class="server-info">延迟：<strong>{{ "%.2f"|format(server.latency) }}ms</strong></div>
+                    <div class="server-info">描述：<strong class="server-description" data-mc-text="{{ server.description }}"></strong></div>
+                    <div class="server-time">更新时间：{{ server.timestamp }}</div>
                 </div>
                 {% endfor %}
             </div>
-        </div>
+        </section>
         {% endfor %}
-    </div>
+    </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <footer class="footer">
+        MCServerRadar ©{{ now().year }} Created by MoTeam
+    </footer>
 </body>
 </html> 
