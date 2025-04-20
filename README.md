@@ -1,8 +1,21 @@
 # MCServerRadar (我的世界服务器雷达)
 
-一个强大的 Minecraft 服务器扫描、监控和展示工具。
+一个强大的 Minecraft 服务器扫描、监控和可视化工具。
 
-## 功能特点
+<div align="center">
+    <img src="docs/images/logo.png" alt="MCServerRadar Logo" width="200"/>
+    <p>
+        中文 | <a href="README_EN.md">English</a>
+    </p>
+    <p>
+        <img src="https://img.shields.io/github/license/MoTeam-org/MCServerRadar" alt="License"/>
+        <img src="https://img.shields.io/github/stars/MoTeam-org/MCServerRadar" alt="Stars"/>
+        <img src="https://img.shields.io/github/forks/MoTeam-org/MCServerRadar" alt="Forks"/>
+        <img src="https://img.shields.io/github/issues/MoTeam-org/MCServerRadar" alt="Issues"/>
+    </p>
+</div>
+
+## ✨ 功能特点
 
 - 🔍 全球范围的 Minecraft 服务器扫描
 - 🌍 基于 GeoIP 的服务器地理位置识别
@@ -10,8 +23,20 @@
 - 📈 实时服务器状态监控
 - 🗺 按国家/地区分类展示
 - 📱 响应式设计，支持移动端访问
+- 🚀 高性能异步扫描
+- 🔒 注重隐私（排除私有IP范围）
+- 📝 详细的服务器信息
+- 🌐 多语言支持
 
-## 安装说明
+## 🚀 快速开始
+
+### 环境要求
+
+- Python 3.8+
+- GeoLite2 国家数据库
+- 网络连接
+
+### 安装步骤
 
 1. 克隆仓库：
 ```bash
@@ -28,12 +53,18 @@ pip install -r requirements.txt
 - 从 [MaxMind](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data) 下载 GeoLite2-Country.mmdb
 - 将文件放在项目根目录
 
-## 使用方法
+### 使用方法
 
 1. 扫描服务器：
 ```bash
-python scan.py --country china  # 扫描特定国家
-python scan.py --mode random   # 随机扫描
+# 扫描特定国家的服务器
+python scan.py --country china
+
+# 随机全球扫描
+python scan.py --mode random
+
+# 扫描特定IP范围
+python scan.py --mode range --start-ip 1.1.1.1 --end-ip 1.1.1.255
 ```
 
 2. 启动 Web 界面：
@@ -41,21 +72,87 @@ python scan.py --mode random   # 随机扫描
 python web.py
 ```
 
-3. 访问 Web 界面：
+3. 访问仪表盘：
 - 打开浏览器访问 `http://localhost:5000`
 
-## 技术栈
+## 📊 功能详情
 
-- Python 3.x
-- Flask (Web 框架)
-- Bootstrap 5 (前端框架)
-- GeoIP2 (IP 地理位置识别)
-- MCStatus (Minecraft 服务器状态查询)
+### 扫描模式
 
-## 贡献指南
+- **国家扫描**：扫描特定国家的服务器
+- **随机全球**：随机采样全球IP
+- **IP范围**：扫描特定IP范围
+- **单主机**：扫描单个主机的所有端口
+- **多服务器**：扫描已知服务器列表
+- **完整IPv4**：扫描整个IPv4空间（谨慎使用）
 
-欢迎提交 Issue 和 Pull Request！
+### 服务器信息
 
-## 许可证
+- 服务器版本
+- 在线/最大玩家数
+- 服务器公告（MOTD）
+- 延迟
+- 在线玩家列表（如果可用）
+- 地理位置
+- 最后更新时间
 
-MIT License 
+### Web界面
+
+- 实时统计数据
+- 按国家分组
+- 服务器状态指示
+- 响应式设计
+- 搜索和筛选功能
+- 交互式地图（即将推出）
+
+## 🛠 技术栈
+
+- **后端**
+  - Python 3.x
+  - Flask (Web框架)
+  - MCStatus (服务器查询)
+  - GeoIP2 (位置检测)
+  - Async IO (高性能扫描)
+
+- **前端**
+  - Bootstrap 5
+  - Flag Icons
+  - 自定义CSS动画
+  - 响应式设计
+
+## 🤝 贡献指南
+
+我们欢迎各种形式的贡献！以下是参与方式：
+
+1. Fork 本仓库
+2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m '添加一些很棒的特性'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 开启一个 Pull Request
+
+## 📝 许可证
+
+本项目采用 Apache License 2.0 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+
+## 🙏 致谢
+
+- [MCStatus](https://github.com/Dinnerbone/mcstatus) - Minecraft服务器查询库
+- [MaxMind](https://www.maxmind.com) - GeoIP2数据库
+- [Bootstrap](https://getbootstrap.com) - 前端框架
+- 所有帮助这个项目成长的贡献者
+
+## 📞 联系方式
+
+- GitHub Issues: [创建issue](https://github.com/MoTeam-org/MCServerRadar/issues)
+- 邮箱: [your-email@example.com]
+
+## 🔮 开发路线
+
+- [ ] 添加服务器历史记录追踪
+- [ ] 实现实时更新
+- [ ] 添加交互式世界地图
+- [ ] 支持基岩版服务器
+- [ ] 添加更多扫描模式
+- [ ] 提升扫描性能
+- [ ] 添加API文档
+- [ ] 添加Docker支持 
