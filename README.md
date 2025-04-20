@@ -203,7 +203,7 @@ python web.py
 ## 📞 联系方式
 
 - GitHub Issues: [创建issue](https://github.com/MoTeam-org/MCServerRadar/issues)
-- 邮箱: [your-email@example.com]
+- 邮箱: [moteam.org@gmail.com]
 
 ## 🔮 开发路线
 

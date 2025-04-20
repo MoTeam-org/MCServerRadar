@@ -203,7 +203,7 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 ## 📞 Contact
 
 - GitHub Issues: [Create an issue](https://github.com/MoTeam-org/MCServerRadar/issues)
-- Email: [your-email@example.com]
+- Email: [moteam.org@gmail.com]
 
 ## 🔮 Roadmap
 
